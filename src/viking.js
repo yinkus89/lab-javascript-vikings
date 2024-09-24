@@ -77,44 +77,50 @@ console.log(saxon.receiveDamage(50));
 
 
 // War
+
+  // War class
 class War {
   constructor() {
     this.vikingArmy = [];
     this.saxonArmy = [];
   }
 
+  
   addViking(viking) {
     this.vikingArmy.push(viking);
   }
 
+  
   addSaxon(saxon) {
     this.saxonArmy.push(saxon);
   }
-  _genericAttack(attackerArmy, defenderArmy) {
-    
-    const attacker = attackerArmy[Math.floor(Math.random() * attackerArmy.length)];
-    const defender = defenderArmy[Math.floor(Math.random() * defenderArmy.length)];
 
+  
+  vikingAttack() {
     
-    const result = defender.receiveDamage(attacker.strength);
-
-    
-    if (defender.health <= 0) {
-      const index = defenderArmy.indexOf(defender);
-      defenderArmy.splice(index, 1);
+    const randomSaxon = this.saxonArmy[Math.floor(Math.random() * this.saxonArmy.length)];
+    const randomViking = this.vikingArmy[Math.floor(Math.random() * this.vikingArmy.length)];  
+    const result = randomSaxon.receiveDamage(randomViking.strength);
+    if (randomSaxon.health <= 0) {
+      this.saxonArmy = this.saxonArmy.filter(saxon => saxon.health > 0);
     }
 
     return result;
   }
 
-  
-  vikingAttack() {
-    return this._genericAttack(this.vikingArmy, this.saxonArmy);
-  }
-
-
+  // Saxon attacks Viking
   saxonAttack() {
-    return this._genericAttack(this.saxonArmy, this.vikingArmy);
+    
+    const randomViking = this.vikingArmy[Math.floor(Math.random() * this.vikingArmy.length)];
+    const randomSaxon = this.saxonArmy[Math.floor(Math.random() * this.saxonArmy.length)];
+
+    const result = randomViking.receiveDamage(randomSaxon.strength);
+
+    if (randomViking.health <= 0) {
+      this.vikingArmy = this.vikingArmy.filter(viking => viking.health > 0);
+    }
+
+    return result;
   }
 
   // Show the status of the war
@@ -132,7 +138,7 @@ class War {
 
 const war = new War();
 
-// Adding Vikings and Saxons to the armies
+
 const viking1 = new Viking('Bjorn', 100, 50);
 const viking2 = new Viking('Lagertha', 120, 60);
 const saxon1 = new Saxon(80, 30);
@@ -143,8 +149,11 @@ war.addViking(viking2);
 war.addSaxon(saxon1);
 war.addSaxon(saxon2);
 
-
+s
 console.log(war.vikingAttack()); 
 console.log(war.saxonAttack()); 
-console.log(war.showStatus()); 
 
+
+console.log(war.showStatus());
+  
+  
